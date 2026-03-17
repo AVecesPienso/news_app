@@ -15,7 +15,7 @@ This is an app designed to fetch video game news connected to the **IGDB API** t
 
 1. **Clone the repository:**
    ```
-   git clone <https://github.com/TU_USUARIO/news_app.git>
+   git clone https://github.com/AVecesPienso/news_app.git
    cd news_app
    ```
 2. **Create and activate virtual environment:**
