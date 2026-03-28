@@ -11,7 +11,8 @@ The app follows a 3-step data expansion flow:
 ## Current features:
 - **Modular API Wrapper:** A unified `query_igdb` engine for efficient endpoint communication.
 - **Relational Data Mapping:** Automatically identifies a game's franchise and expands search to all related titles.
-- **Franchise News Aggregator (In Progress):** Logic to group game IDs for bulk news fetching.
+- **Franchise News Aggregator:** Logic to group game IDs for bulk news fetching.
+- **Steam News Integration:** Fetches live news articles for all games in a franchise via the Steam News API
 - **Secure Environment:** Full `.env` integration and automated Twitch OAuth2 handshake.
 
 ## Requirements:
@@ -43,6 +44,22 @@ The app follows a 3-step data expansion flow:
     TWITCH_CLIENT_ID=your_client_id_here
     TWITCH_CLIENT_SECRET=your_client_secret_here
     ```
+
+## Project Structure:
+```
+news_app/
+├── main.py
+├── requirements.txt
+├── .env
+├── .gitignore
+├── src/
+│   ├── igdb_client.py
+│   ├── news_client.py
+│   └── feed.py
+└── data/
+    └── bookmarks.json  ← generated automatically on first run
+```
+
 ## Usage:
 Run the main script and enter a game title when prompted:
 ```
@@ -50,21 +67,18 @@ python main.py
 ```
 ### Example output:
 ```
--Enter game to search: The Witcher 3
+Enter game to search: The Witcher
 
-8 games found:
+47 news articles found for: The Witcher
 
-Name: [1942] The Witcher 3: Wild Hunt
-The Witcher 3: Wild Hunt is an open-world action role-playing game developed by CD Projekt Red.
-
-Set in a dark fantasy world, the game follows Geralt of Rivia, a monster hunter searching for his adopted daughter, Ciri, while navigating political conflicts and supernatural threats. Gameplay features exploration, combat, character progression, and branching narratives shaped by player choices. Widely acclaimed for its writing, world-building, and depth, it is considered one of the most influential RPGs of its generation.
-------------------------------
-
---- Franchise feed: The Witcher ---
-Linked games: [80, 478, 1942, 9689, 12503, 19474, 27832, 8765, 107300, 122661, 115776, 137125, 119402, 194662, 187249, 198179, 208307, 220276, 220277, 230102, 16209, 23473, 22319, 13166, 170451, 170450, 226413, 157580, 170449, 141472, 20740, 387351, 314927, 20275, 22439, 44549, 372654]
+[PC Gamer] The Witcher 3 modders are still discovering and restoring deleted scenes...
+Author: Robin Valentine
+URL: https://www.pcgamer.com/...
 ```
 
 ## Roadmap:
-- [ ] Convert Game IDs to Steam AppIDs via `external_games`.
-- [ ] Fetch live patch notes and announcements using the Steam News API.
-- [ ] Implement a clean CLI or Web interface for news display.
+- [x] Convert Game IDs to Steam AppIDs via `external_games`.
+- [x] Fetch live patch notes and announcements using the Steam News API.
+- [ ] Format news feed for readable CLI display (feed.py).
+- [ ] Implement bookmarks system with JSON storage.
+- [ ] Build interactive CLI menu.
