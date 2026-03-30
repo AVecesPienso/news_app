@@ -9,11 +9,12 @@ The app follows a 3-step data expansion flow:
 3. **Map:** Retrieves the full list of all `Linked Game IDs` within that franchise to prepare for the news feed.
 
 ## Current features:
+- **Secure Environment:** Full `.env` integration and automated Twitch OAuth2 handshake.
 - **Modular API Wrapper:** A unified `query_igdb` engine for efficient endpoint communication.
 - **Relational Data Mapping:** Automatically identifies a game's franchise and expands search to all related titles.
 - **Franchise News Aggregator:** Logic to group game IDs for bulk news fetching.
-- **Steam News Integration:** Fetches live news articles for all games in a franchise via the Steam News API
-- **Secure Environment:** Full `.env` integration and automated Twitch OAuth2 handshake.
+- **Steam News Integration:** Fetches live news articles for all games in a franchise via the Steam News API.
+- **CLI News Display:** Formats and prints news articles with title, source, date, author and URL.
 
 ## Requirements:
 - **Python 3.12** or higher.
@@ -68,17 +69,18 @@ python main.py
 ### Example output:
 ```
 Enter game to search: The Witcher
-
-47 news articles found for: The Witcher
-
-[PC Gamer] The Witcher 3 modders are still discovering and restoring deleted scenes...
+47 news found
+------------------------------
+[PC Gamer] March 23, 2026
+The Witcher 3 modders are still discovering and restoring deleted scenes, including one that adds new texture to the game's best villain
 Author: Robin Valentine
-URL: https://www.pcgamer.com/...
+URL: https://steamstore-a.akamaihd.net/news/externalpost/PC Gamer/1827626365764042
+------------------------------
 ```
 
 ## Roadmap:
 - [x] Convert Game IDs to Steam AppIDs via `external_games`.
 - [x] Fetch live patch notes and announcements using the Steam News API.
-- [ ] Format news feed for readable CLI display (feed.py).
+- [x] Format news feed for readable CLI display (feed.py).
 - [ ] Implement bookmarks system with JSON storage.
 - [ ] Build interactive CLI menu.
