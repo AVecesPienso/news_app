@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime, timedelta
 
 def get_token(c_id, c_secret):
     twitch_url = "https://id.twitch.tv/oauth2/token"
@@ -39,6 +40,12 @@ def get_collection_data(collection_id, token, client_id):
     body = f'fields name, games; where id = {collection_id};'
     return query_igdb("collections", body, token, client_id)
 
+def get_popular_games(token, client_id):
+    years_ago = datetime.now() - timedelta(days=365*2)
+    timestamp = int(years_ago.timestamp())
+    body = f'fields id, name, franchises, collection, total_rating_count, hypes; where (total_rating_count > 100 | hypes > 50) & first_release_date > {timestamp}; sort total_rating_count desc; limit 20;'
+    return query_igdb("games", body, token, client_id)
+
 def get_steam_data(game_ids, token, client_id):
     if not game_ids:
         return [] 
@@ -75,14 +82,17 @@ def process_request(game_name, token, client_id):
     if not game_results:
         return None
     
-    selected_game = next(
-        (g for g in game_results if g['name'].lower() == game_name.lower()), 
-        game_results[0]
-    )
+    selected_game = None
+    for g in game_results:
+        if g['name'].lower() == game_name.lower():
+            selected_game = g
+            break
+    if selected_game is None:
+        selected_game = game_results[0]
+
     name = selected_game['name']
     franchises = selected_game.get('franchises')
     collection_id = selected_game.get('collection')
-
     target_ids = []
 
     if franchises:
@@ -93,6 +103,24 @@ def process_request(game_name, token, client_id):
         target_ids = c_results[0].get('games', []) if c_results else []
     else:
         target_ids = [selected_game['id']]
+
+    steam_data = get_steam_data(target_ids, token, client_id)
+    return {"name": name, "steam_ids": steam_data}
+
+def process_feed(game_dict, token, client_id):
+    name = game_dict['name']
+    franchises = game_dict.get('franchises')
+    collection_id = game_dict.get('collection')
+    target_ids = []
+
+    if franchises:
+        f_results = get_franchise_data(franchises[0], token, client_id)
+        target_ids = f_results[0].get('games', []) if f_results else []
+    elif collection_id:
+        c_results = get_collection_data(collection_id, token, client_id)
+        target_ids = c_results[0].get('games', []) if c_results else []
+    else:
+        target_ids = [game_dict['id']]
 
     steam_data = get_steam_data(target_ids, token, client_id)
     return {"name": name, "steam_ids": steam_data}
