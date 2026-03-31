@@ -3,10 +3,18 @@
 This is an app designed to fetch video game news connected to the **IGDB API** through **Twitch OAuth2**.
 
 ## How it works:
-The app follows a 3-step data expansion flow:
-1. **Search:** Translates user input into a specific `Game ID`.
-2. **Expand:** Pivots from the `Game ID` to its `Franchise ID`.
-3. **Map:** Retrieves the full list of all `Linked Game IDs` within that franchise to prepare for the news feed.
+The app follows two main flows:
+
+**Automatic feed:**
+1. **Discover:** Fetches trending games from IGDB based on ratings and hype scores.
+2. **Expand:** Resolves each game's franchise or collection to find all related titles.
+3. **Fetch:** Retrieves news from the Steam News API for all related Steam IDs.
+4. **Display:** Filters and formats news articles for CLI display.
+
+**Manual search (bookmarks):**
+1. **Search:** Translates user input into a specific Game ID via IGDB.
+2. **Expand:** Pivots from the Game ID to its franchise and related titles.
+3. **Fetch:** Retrieves and displays news for that franchise.
 
 ## Current features:
 - **Secure Environment:** Full `.env` integration and automated Twitch OAuth2 handshake.
@@ -15,6 +23,8 @@ The app follows a 3-step data expansion flow:
 - **Franchise News Aggregator:** Logic to group game IDs for bulk news fetching.
 - **Steam News Integration:** Fetches live news articles for all games in a franchise via the Steam News API.
 - **CLI News Display:** Formats and prints news articles with title, source, date, author and URL.
+- **Popular Games Feed:** Dynamically fetches trending games from IGDB based on ratings and hype scores.
+- **News Filtering:** Filters out non-English sources and articles older than 2 years.
 
 ## Requirements:
 - **Python 3.12** or higher.
@@ -62,21 +72,33 @@ news_app/
 ```
 
 ## Usage:
-Run the main script and enter a game title when prompted:
+Run the main script to launch the automatic news feed:
 ```
 python main.py
 ```
 ### Example output:
 ```
-Enter game to search: The Witcher
-47 news found
 ------------------------------
-[PC Gamer] March 23, 2026
-The Witcher 3 modders are still discovering and restoring deleted scenes, including one that adds new texture to the game's best villain
-Author: Robin Valentine
-URL: https://steamstore-a.akamaihd.net/news/externalpost/PC Gamer/1827626365764042
+Clair Obscur: Expedition 33
+------------------------------
+[Community Announcements] March 17, 2026
+Patch v1.5.3 is live!
+Author: QuiteDubious
+URL: https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1826992588603180
+------------------------------
+------------------------------
+Hollow Knight: Silksong
+------------------------------
+[GamingOnLinux] March 16, 2026
+Hollow Knight: Silksong Patch 5 brings many more bug fixes and improved translations
+Author: Unknown
+URL: https://steamstore-a.akamaihd.net/news/externalpost/GamingOnLinux/1826992588601313
 ------------------------------
 ```
+## Known limitations:
+- News are fetched from Steam and may include related titles in the same franchise.
+- Some games may not appear in the feed if their Steam ID is not registered in IGDB (e.g. Marvel Rivals).
+- News are only available in languages supported by Steam News API — non-English sources are partially filtered.
 
 ## Roadmap:
 - [x] Convert Game IDs to Steam AppIDs via `external_games`.
