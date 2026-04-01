@@ -25,6 +25,7 @@ The app follows two main flows:
 - **CLI News Display:** Formats and prints news articles with title, source, date, author and URL.
 - **Popular Games Feed:** Dynamically fetches trending games from IGDB based on ratings and hype scores.
 - **News Filtering:** Filters out non-English sources and articles older than 2 years.
+- **Interactive CLI Menu:** Navigate between the popular feed, game search, and bookmarks from a simple numbered menu.
 
 ## Requirements:
 - **Python 3.12** or higher.
@@ -66,7 +67,8 @@ news_app/
 ├── src/
 │   ├── igdb_client.py
 │   ├── news_client.py
-│   └── feed.py
+│   ├── feed.py
+│   └── menu.py
 └── data/
     └── bookmarks.json  ← generated automatically on first run
 ```
@@ -78,21 +80,21 @@ python main.py
 ```
 ### Example output:
 ```
+1. View Popular games feed
+2. Search a game
+3. View bookmarks
+4. Exit
+
+Select an option:2
+
+Enter game name: The Witcher
 ------------------------------
-Clair Obscur: Expedition 33
+The Witcher
 ------------------------------
-[Community Announcements] March 17, 2026
-Patch v1.5.3 is live!
-Author: QuiteDubious
-URL: https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1826992588603180
-------------------------------
-------------------------------
-Hollow Knight: Silksong
-------------------------------
-[GamingOnLinux] March 16, 2026
-Hollow Knight: Silksong Patch 5 brings many more bug fixes and improved translations
-Author: Unknown
-URL: https://steamstore-a.akamaihd.net/news/externalpost/GamingOnLinux/1826992588601313
+[PC Gamer] March 23, 2026
+The Witcher 3 modders are still discovering and restoring deleted scenes, including one that adds new texture to the game's best villain
+Author: Robin Valentine
+URL: https://steamstore-a.akamaihd.net/news/externalpost/PC Gamer/1827626365764042
 ------------------------------
 ```
 ## Known limitations:
@@ -101,8 +103,8 @@ URL: https://steamstore-a.akamaihd.net/news/externalpost/GamingOnLinux/182699258
 - News are only available in languages supported by Steam News API — non-English sources are partially filtered.
 
 ## Roadmap:
-- [x] Convert Game IDs to Steam AppIDs via `external_games`.
-- [x] Fetch live patch notes and announcements using the Steam News API.
-- [x] Format news feed for readable CLI display (feed.py).
-- [ ] Implement bookmarks system with JSON storage.
-- [ ] Build interactive CLI menu.
+- ✅ Convert Game IDs to Steam AppIDs via `external_games`.
+- ✅ Fetch live patch notes and announcements using the Steam News API.
+- ✅ Format news feed for readable CLI display (feed.py).
+- ✅ Build interactive CLI menu.
+- ⏳ Implement bookmarks system with JSON storage.
