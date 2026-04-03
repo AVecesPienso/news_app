@@ -65,10 +65,11 @@ news_app/
 ├── .env
 ├── .gitignore
 ├── src/
-│   ├── igdb_client.py
-│   ├── news_client.py
+│   ├── bookmarks.py
 │   ├── feed.py
-│   └── menu.py
+│   ├── igdb_client.py
+│   ├── menu.py
+│   └── news_client.py
 └── data/
     └── bookmarks.json  ← generated automatically on first run
 ```
@@ -82,24 +83,45 @@ python main.py
 ```
 1. View Popular games feed
 2. Search a game
-3. View bookmarks
-4. Exit
+3. View and edit bookmarks
+0. Exit
 
-Select an option:2
+Select an option: 2
 
-Enter game name: The Witcher
+Enter game name: Hollow Knight: Silksong
 ------------------------------
-The Witcher
+Hollow Knight: Silksong
 ------------------------------
-[PC Gamer] March 23, 2026
-The Witcher 3 modders are still discovering and restoring deleted scenes, including one that adds new texture to the game's best villain
-Author: Robin Valentine
-URL: https://steamstore-a.akamaihd.net/news/externalpost/PC Gamer/1827626365764042
+[GamingOnLinux] March 16, 2026
+Hollow Knight: Silksong Patch 5 brings many more bug fixes...
+Author: Unknown
+URL: https://steamstore-a.akamaihd.net/...
 ------------------------------
+
+Save as bookmark? (Y/N): y
+Bookmark saved!
+1. View Popular games feed
+2. Search a game
+3. View and edit bookmarks
+0. Exit
+
+Select an option: 3
+1. The Witcher
+2. Elden Ring
+3. Hollow Knight: Silksong
+0. Back
+
+Select a bookmark to edit: 3
+1. View news
+2. Delete bookmark
+0. Back
+
+Select an option: 2
+Bookmark Deleted.
 ```
 ## Known limitations:
 - News are fetched from Steam and may include related titles in the same franchise.
-- Some games may not appear in the feed if their Steam ID is not registered in IGDB (e.g. Marvel Rivals).
+- Some games may not appear in the feed if their Steam ID is not registered in IGDB (e.g. Hollow Knight, Marvel Rivals) and will not appear in search results.
 - News are only available in languages supported by Steam News API — non-English sources are partially filtered.
 
 ## Roadmap:
@@ -107,4 +129,4 @@ URL: https://steamstore-a.akamaihd.net/news/externalpost/PC Gamer/18276263657640
 - ✅ Fetch live patch notes and announcements using the Steam News API.
 - ✅ Format news feed for readable CLI display (feed.py).
 - ✅ Build interactive CLI menu.
-- ⏳ Implement bookmarks system with JSON storage.
+- ✅ Implement bookmarks system with JSON storage.
