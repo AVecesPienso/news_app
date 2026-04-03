@@ -105,7 +105,11 @@ def process_request(game_name, token, client_id):
         target_ids = [selected_game['id']]
 
     steam_data = get_steam_data(target_ids, token, client_id)
-    return {"name": name, "steam_ids": steam_data}
+    return {"name": name, 
+            "steam_ids": steam_data, 
+            "franchise_id": franchises[0] if franchises else None,
+            "collection_id": collection_id if collection_id else None
+            }
 
 def process_feed(game_dict, token, client_id):
     name = game_dict['name']
