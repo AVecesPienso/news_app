@@ -1,13 +1,16 @@
 from src import igdb_client, news_client, feed, bookmarks
 
 def show_menu(token, client_id):
+    """
+    Displays the main CLI menu and handles user navigation.
+    Options: view popular feed, search a game, manage bookmarks, and exit.
+    """
     while True:
         print("1. View Popular games feed")
         print("2. Search a game")
         print("3. View and edit bookmarks")
         print("0. Exit")
         choice = input("\nSelect an option: ")
-
 
         if choice == "1":
             feed.popular_feed(token, client_id)
@@ -56,7 +59,6 @@ def show_menu(token, client_id):
                         print("2. Delete bookmark")
                         print("0. Back")
                         selection = input("\nSelect an option: ")
-
                         if selection == "1":
                             news = news_client.get_news(selected["steam_ids"])
                             if news:
