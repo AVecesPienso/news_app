@@ -18,17 +18,21 @@ def save_bookmark(name, steam_ids, franchise_id, collection_id):
     """
     Saves a new bookmark to data/bookmarks.json.
     Detects duplicates by franchise_id or collection_id to avoid saving the same franchise twice.
-    Returns True if saved successfully, False if the bookmark already exists.
+    Prints if saved successfully or if the bookmark already exists.
     """
     bookmarks = load_bookmark()
     already_exists = False
     for bookmark in bookmarks:
         if franchise_id and bookmark["franchise_id"] == franchise_id:
-            print("Bookmark already exists")
+            print("Bookmark already exists.")
             already_exists = True
             break
         elif collection_id and bookmark["collection_id"] == collection_id:
-            print("Bookmark already exists")
+            print("Bookmark already exists.")
+            already_exists = True
+            break
+        elif not franchise_id and not collection_id and bookmark["name"] == name:
+            print("Bookmark already exists.")
             already_exists = True
             break
     if not already_exists:
@@ -40,8 +44,7 @@ def save_bookmark(name, steam_ids, franchise_id, collection_id):
             })
         with open("data/bookmarks.json", "w") as f:
             json.dump(bookmarks, f)
-        return True
-    return False
+        print("Bookmark saved!")
 
 def delete_bookmark(name):
     """
