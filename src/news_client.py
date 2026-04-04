@@ -1,6 +1,11 @@
 import requests
 
 def get_news(id_list):
+    """
+    Fetches news articles from the Steam News API for a list of Steam App IDs.
+    Filters out non-English sources ending in '.ru'.
+    Returns a flat list of news item dicts.
+    """
     url = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/"
     news = []
     for steam_id in id_list:
