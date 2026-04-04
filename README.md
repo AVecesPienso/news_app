@@ -3,7 +3,7 @@
 This is an app designed to fetch video game news connected to the **IGDB API** through **Twitch OAuth2**.
 
 ## How it works:
-The app follows two main flows:
+The app follows three main flows:
 
 **Automatic feed:**
 1. **Discover:** Fetches trending games from IGDB based on ratings and hype scores.
@@ -11,10 +11,15 @@ The app follows two main flows:
 3. **Fetch:** Retrieves news from the Steam News API for all related Steam IDs.
 4. **Display:** Filters and formats news articles for CLI display.
 
-**Manual search (bookmarks):**
+**Manual search:**
 1. **Search:** Translates user input into a specific Game ID via IGDB.
 2. **Expand:** Pivots from the Game ID to its franchise and related titles.
 3. **Fetch:** Retrieves and displays news for that franchise.
+
+**Bookmarks:**
+1. **Save:** After searching a game, save it as a bookmark to revisit its news later.
+2. **Load:** Select a saved bookmark to instantly load its news feed.
+3. **Delete:** Remove bookmarks you no longer need.
 
 ## Current features:
 - **Secure Environment:** Full `.env` integration and automated Twitch OAuth2 handshake.
@@ -25,6 +30,7 @@ The app follows two main flows:
 - **CLI News Display:** Formats and prints news articles with title, source, date, author and URL.
 - **Popular Games Feed:** Dynamically fetches trending games from IGDB based on ratings and hype scores.
 - **News Filtering:** Filters out non-English sources and articles older than 2 years.
+- **Bookmark System:** Save, load, and delete game franchises to quickly access their news feed.
 - **Interactive CLI Menu:** Navigate between the popular feed, game search, and bookmarks from a simple numbered menu.
 
 ## Requirements:
@@ -75,7 +81,7 @@ news_app/
 ```
 
 ## Usage:
-Run the main script to launch the automatic news feed:
+Run the main script to launch the interactive CLI menu:
 ```
 python main.py
 ```
@@ -86,38 +92,32 @@ python main.py
 3. View and edit bookmarks
 0. Exit
 
-Select an option: 2
-
-Enter game name: Hollow Knight: Silksong
-------------------------------
-Hollow Knight: Silksong
-------------------------------
-[GamingOnLinux] March 16, 2026
-Hollow Knight: Silksong Patch 5 brings many more bug fixes...
-Author: Unknown
-URL: https://steamstore-a.akamaihd.net/...
-------------------------------
-
-Save as bookmark? (Y/N): y
-Bookmark saved!
-1. View Popular games feed
-2. Search a game
-3. View and edit bookmarks
-0. Exit
-
 Select an option: 3
+------------------------------
 1. The Witcher
 2. Elden Ring
 3. Hollow Knight: Silksong
+4. Crimson Desert
 0. Back
 
-Select a bookmark to edit: 3
+Select a bookmark to edit: 4
+------------------------------
 1. View news
 2. Delete bookmark
 0. Back
 
 Select an option: 2
+------------------------------
 Bookmark Deleted.
+
+Press Enter to continue...
+------------------------------
+1. The Witcher
+2. Elden Ring
+3. Hollow Knight: Silksong
+0. Back
+
+Select a bookmark to edit:
 ```
 ## Known limitations:
 - News are fetched from Steam and may include related titles in the same franchise.
