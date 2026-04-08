@@ -1,5 +1,8 @@
 import os
 import json
+from rich.console import Console
+
+console = Console()
 
 def load_bookmark():
     """
@@ -23,18 +26,16 @@ def save_bookmark(name, steam_ids, franchise_id, collection_id):
     bookmarks = load_bookmark()
     already_exists = False
     for bookmark in bookmarks:
-        if franchise_id and bookmark["franchise_id"] == franchise_id:
-            print("Bookmark already exists.")
+        is_duplicate = (
+            (franchise_id and bookmark["franchise_id"] == franchise_id) or
+            (collection_id and bookmark["collection_id"] == collection_id) or
+            (not franchise_id and not collection_id and bookmark["name"] == name)
+            )
+        if is_duplicate:
+            console.print("[red]✖ Bookmark already exists.[/red]")
             already_exists = True
             break
-        elif collection_id and bookmark["collection_id"] == collection_id:
-            print("Bookmark already exists.")
-            already_exists = True
-            break
-        elif not franchise_id and not collection_id and bookmark["name"] == name:
-            print("Bookmark already exists.")
-            already_exists = True
-            break
+        
     if not already_exists:
         bookmarks.append({
             "name": name, 
@@ -44,7 +45,7 @@ def save_bookmark(name, steam_ids, franchise_id, collection_id):
             })
         with open("data/bookmarks.json", "w") as f:
             json.dump(bookmarks, f)
-        print("Bookmark saved!")
+        console.print("[bold green]✔ Bookmark saved![/bold green]")
 
 def delete_bookmark(name):
     """
