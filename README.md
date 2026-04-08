@@ -32,10 +32,14 @@ The app follows three main flows:
 - **News Filtering:** Filters out non-English sources and articles older than 2 years.
 - **Bookmark System:** Save, load, and delete game franchises to quickly access their news feed.
 - **Interactive CLI Menu:** Navigate between the popular feed, game search, and bookmarks from a simple numbered menu.
+- **Polished CLI Experience:** Interactive menus with styled panels, tables, and real-time status spinners thanks to `Rich` library.
 
 ## Requirements:
 - **Python 3.12** or higher.
-- **Libraries:** `requests` (API communication) and `python-dotenv` (credential management).
+- **Libraries:** 
+    - `requests` (API communication)
+    - `python-dotenv` (credential management).
+    - `rich` (advanced CLI formatting and interactive elements).
 - A [Twitch Developers](https://dev.twitch.tv/) account for API credentials.
 
 ## Installation and Setup:
@@ -85,40 +89,21 @@ Run the main script to launch the interactive CLI menu:
 ```
 python main.py
 ```
-### Example output:
-```
-1. View Popular games feed
-2. Search a game
-3. View and edit bookmarks
-0. Exit
+## Example output:
+##### Main menu
+![Main Menu](assets/main_menu.png)
+##### Search submenu
+![Search Submenu](assets/submenu_search.png)
+##### Save bookmark menu
+![Save Bookmark](assets/save_as_bookmark.png)
+##### Feedback status
+![Saved](assets/bookmark_saved.png)
+![Exists](assets/bookmark_already_saved.png)
+##### Bookmark menu
+![Bookmark Menu](assets/bookmark_menu.png)
+![Bookmark Submenu](assets/bookmark_submenu.png)
+![Bookmar Deleted](assets/bookmark_deleted.png)
 
-Select an option: 3
-------------------------------
-1. The Witcher
-2. Elden Ring
-3. Hollow Knight: Silksong
-4. Crimson Desert
-0. Back
-
-Select a bookmark to edit: 4
-------------------------------
-1. View news
-2. Delete bookmark
-0. Back
-
-Select an option: 2
-------------------------------
-Bookmark Deleted.
-
-Press Enter to continue...
-------------------------------
-1. The Witcher
-2. Elden Ring
-3. Hollow Knight: Silksong
-0. Back
-
-Select a bookmark to edit:
-```
 ## Known limitations:
 - News are fetched from Steam and may include related titles in the same franchise.
 - Some games may not appear in the feed if their Steam ID is not registered in IGDB (e.g. Hollow Knight, Marvel Rivals) and will not appear in search results.
@@ -128,5 +113,5 @@ Select a bookmark to edit:
 - ✅ Convert Game IDs to Steam AppIDs via `external_games`.
 - ✅ Fetch live patch notes and announcements using the Steam News API.
 - ✅ Format news feed for readable CLI display (feed.py).
-- ✅ Build interactive CLI menu.
+- ✅ Build interactive CLI menu with `rich` integration.
 - ✅ Implement bookmarks system with JSON storage.
