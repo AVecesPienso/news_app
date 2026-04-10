@@ -1,5 +1,9 @@
 from src import igdb_client, news_client
 from datetime import datetime, timedelta
+from rich.panel import Panel
+from rich.console import Group
+from rich.text import Text
+from src.shared import console
 
 def popular_feed(token, client_id):
     """
@@ -26,18 +30,23 @@ def print_feed(news_list, game_name):
     Formats and prints a list of news articles to the terminal.
     Displays game name as header followed by each article's source, date, title, author and URL.
     """
-    print("-" * 30)
-    print(game_name)
-    print("-" * 30)
+    panels = []
     for item in news_list:
         feedlabel = item["feedlabel"]
         date = datetime.fromtimestamp(item["date"]).strftime("%B %d, %Y")
         title = item["title"]
         author = item["author"] if item["author"] else "Unknown"
         url = item["url"]
+
+        news_text = Text.assemble(
+            (f"[{feedlabel}]", "bold magenta"), " ",(title, "bold white"), "\n",
+            ("Date: ", "bold cyan"), (date, "bold white"), "\n",
+            ("Author: ", "bold cyan"), (author, "bold white"), "\n",
+            ("URL: ", "bold cyan"), (url, "underline blue")
+        )
+        panels.append(Panel(news_text, style="bold cyan on #101B21"))
+
+    group = Panel(Group(*panels), title=f"[yellow]{game_name}", title_align="left", border_style="bold purple")
+    console.print(group)
+    console.print("\n")
     
-        print(f"[{feedlabel}] {date}")
-        print(title)
-        print(f"Author: {author}")
-        print(f"URL: {url}")
-        print("-" * 30)

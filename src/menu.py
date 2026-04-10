@@ -1,14 +1,11 @@
 import os
 import sys
 from src import igdb_client, news_client, feed, bookmarks
-from rich.console import Console
 from rich.panel import Panel
 from rich.text import Text
 from rich.table import Table
 from rich.prompt import Prompt
-from rich import box
-
-console = Console()
+from src.shared import console
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -20,27 +17,29 @@ def show_menu(token, client_id):
     """
     while True:
         clear_screen()
-        console.print(Panel("[yellow]IGDB News App[/yellow]", style="bold cyan"))
+        console.print(Panel("[yellow]IGDB News App[/yellow]", style="bold cyan on #101B21"))
 
-        menu_table = Table.grid(padding=(0, 1))
-        menu_table.add_row("[bold cyan]1.[/bold cyan]", "View Popular games feed")
-        menu_table.add_row("[bold cyan]2.[/bold cyan]", "Search a game")
-        menu_table.add_row("[bold cyan]3.[/bold cyan]", "View and edit bookmarks")
-        menu_table.add_row("", "")
-        menu_table.add_row("[bold red]0.[/bold red]", "[bold red]Exit[/bold red]")
-        console.print(Panel(menu_table, title="Main Menu", title_align="left", border_style="bold cyan"))
+        menu_table = Text.assemble(
+            ("1. ", "bold cyan"), ("View Popular games feed", "bold white"), "\n",
+            ("2. ", "bold cyan"), ("Search a game", "bold white"), "\n",
+            ("3. ", "bold cyan"), ("View and edit bookmarks", "bold white"), "\n",
+            "\n",
+            ("0. Exit", "bold red")
+        )
+        console.print(Panel(menu_table, title="[bold purple]Main Menu[/bold purple]", title_align="left", style="bold cyan on #101B21"))
 
-        choice = Prompt.ask("\n[bold cyan]>[/bold cyan] Select an option")
+        choice = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Select an option[/bold white]")
 
         if choice == "1":
+            clear_screen()
             with console.status("[bold green]Searching IGDB..."):
                 feed.popular_feed(token, client_id)
             while True:
                 option_menu = Text.assemble(
                     ("0. Back", "bold red")
                 )
-                console.print(Panel(option_menu, border_style="bold cyan"))
-                action = Prompt.ask("\n[bold cyan]>[/bold cyan] Select an option", default="0", show_default=False)
+                console.print(Panel(option_menu, style="bold cyan on #101B21"))
+                action = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Select an option[/bold white]", default="0", show_default=False)
 
                 if action == "0":
                     clear_screen()
@@ -63,9 +62,9 @@ def show_menu(token, client_id):
                     ("Enter", "bold red"),
                     (" to go back to Main Menu.", "dim")
                     )
-                console.print(Panel(header_text, title="[bold cyan]Game News Finder[/bold cyan]", title_align="left", border_style="bold cyan"))
+                console.print(Panel(header_text, title="[bold purple]Game News Finder[/bold purple]", title_align="left", style="bold cyan on #101B21"))
 
-                game_name = Prompt.ask("\n[bold cyan]>[/bold cyan] Game Name", default="0", show_default=False)
+                game_name = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Game Name[/bold white]", default="0", show_default=False)
                 if game_name == "0":
                     clear_screen()
                     break
@@ -84,12 +83,11 @@ def show_menu(token, client_id):
 
                         while True:
                             options_menu = Text.assemble(
-                                ("1. ", "bold cyan"),
-                                "Save as bookmark\n",
+                                ("1. ", "bold cyan"), ("Save as bookmark", "bold white"), "\n",
                                 ("0. Back", "bold red")
                             )
-                            console.print(Panel(options_menu, border_style="bold cyan"))
-                            action = Prompt.ask("\n[bold cyan]>[/bold cyan] Select an option", default="0", show_default=False)
+                            console.print(Panel(options_menu, style="bold cyan on #101B21"))
+                            action = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Select an option[/bold white]", default="0", show_default=False)
                             if action == "0":
                                 clear_screen()
                                 break
@@ -124,12 +122,12 @@ def show_menu(token, client_id):
                 else:
                     table = Table.grid(padding=(0, 1))
                     for i, bookmark in enumerate(content):
-                        table.add_row(f"[bold cyan]{i + 1}.[/bold cyan]", bookmark['name'])
+                        table.add_row(f"[bold cyan]{i + 1}.[/bold cyan]", f"[bold white]{bookmark['name']}[/bold white]")
                     table.add_row("", "")
                     table.add_row("[bold red]0.[/bold red]", "[bold red]Back[/bold red]")
-                    console.print(Panel(table, title="[yellow]Bookmarks[/yellow]", title_align="left", border_style="bold cyan"))
+                    console.print(Panel(table, title="[yellow]Bookmarks[/yellow]", title_align="left", style="bold cyan on #101B21"))
 
-                    selection = Prompt.ask("\n[bold cyan]>[/bold cyan] Select a bookmark to edit", default="0", show_default=False)
+                    selection = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Select a bookmark to edit[/bold white]", default="0", show_default=False)
                     if selection == "0":
                         clear_screen()
                         break
@@ -140,13 +138,14 @@ def show_menu(token, client_id):
 
                             while True:
                                 clear_screen()
-                                action_table = Table.grid(padding=(0, 1))
-                                action_table.add_row("[bold cyan]1.[/bold cyan]", "View news")
-                                action_table.add_row("[bold cyan]2.[/bold cyan]", "Delete bookmark")
-                                action_table.add_row("", "")
-                                action_table.add_row("[bold red]0.[/bold red]", "[bold red]Back[/bold red]")
-                                console.print(Panel(action_table, title=f"[yellow]{selected['name']}[/yellow]", title_align="left", border_style="bold cyan"))
-                                action = Prompt.ask("\n[bold cyan]>[/bold cyan] Select an option", default="0", show_default=False)
+                                action_table = Text.assemble(
+                                    ("1. ", "bold cyan"), ("View news", "bold white"), "\n",
+                                    ("2. ", "bold cyan"), ("Delete bookmark", "bold white"), "\n",
+                                    "\n",
+                                    ("0. Back", "bold red")
+                                )
+                                console.print(Panel(action_table, title=f"[yellow]{selected['name']}[/yellow]", title_align="left", style="bold cyan on #101B21"))
+                                action = Prompt.ask("\n[bold cyan]>[/bold cyan] [bold white]Select an option[/bold white]", default="0", show_default=False)
 
                                 if action == "1":
                                     with console.status(f"[bold blue]Loading news for {selected['name']}..."):

@@ -1,8 +1,6 @@
 import os
 import json
-from rich.console import Console
-
-console = Console()
+from src.shared import console
 
 def load_bookmark():
     """
